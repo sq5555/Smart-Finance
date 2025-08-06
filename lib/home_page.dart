@@ -50,13 +50,13 @@ class _HomePageState extends State<HomePage> {
 
     final difference = dueDate.difference(now).inDays;
     if (difference <= 3 && difference >=0) {
-      // 如果两天后到期，立即提醒
+      
       final category = bill['category'] ?? 'Unknown';
       final amount = bill['amount'] ?? 0;
       final formattedDate = DateFormat('dd MMM').format(dueDate);
 
       await flutterLocalNotificationsPlugin.show(
-        dueDate.millisecondsSinceEpoch ~/ 1000, // ID 防重复
+        dueDate.millisecondsSinceEpoch ~/ 1000, 
         'Upcoming Bill',
         'Your $category bill (RM $amount) is due on $formattedDate',
         const NotificationDetails(
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
   }
   Future<void> fetchHomeData() async {
     try {
-      // 获取当前月份的数据
+      
       final now = DateTime.now();
       final currentMonth = now.month;
       final currentYear = now.year;
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
       final monthKey = '${currentYear}_$monthName';
       final savingMonthKey = '${currentYear}_${currentMonth.toString().padLeft(2, '0')}';
 
-      // 获取budget - 从正确的路径
+      
       DocumentSnapshot budgetDoc = await _firestore.collection('financialData').doc(userId).get();
       double currentBudget = 0;
       if (budgetDoc.exists) {
@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
         }
       }
 
-      // 获取当前月份的expenditures - 从collection
+      
       double totalExpenditure = 0;
       QuerySnapshot expenditureSnapshot = await _firestore
           .collection('financialData')
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
         }
       }
 
-      // 获取当前月份的saving - 从savingHistory
+      
       double currentSaving = 0;
       if (budgetDoc.exists) {
         final data = budgetDoc.data() as Map<String, dynamic>;
@@ -154,22 +154,22 @@ class _HomePageState extends State<HomePage> {
         }
       }
 
-      // 计算remaining budget - 只减去expenditure和saving
+      
       double remaining = currentBudget - totalExpenditure - currentSaving;
 
-      // 调试信息
+      
       debugPrint("Budget: $currentBudget");
       debugPrint("Expenditure: $totalExpenditure");
       debugPrint("Saving: $currentSaving");
       debugPrint("Remaining: $remaining");
 
-      // 获取最近6个月的数据用于饼图
+      
       List<Map<String, dynamic>> recentData = [];
       for (int i = 5; i >= 0; i--) {
         final targetDate = DateTime(currentYear, currentMonth - i, 1);
         final targetSavingMonthKey = '${targetDate.year}_${targetDate.month.toString().padLeft(2, '0')}';
 
-        // 获取该月的expenditure
+        
         double monthExpenditure = 0;
         for (var doc in expenditureSnapshot.docs) {
           final expenditureData = doc.data() as Map<String, dynamic>;
@@ -178,8 +178,7 @@ class _HomePageState extends State<HomePage> {
             monthExpenditure += (expenditureData['amount'] ?? 0).toDouble();
           }
         }
-
-        // 获取该月的saving
+       
         double monthSaving = 0;
         if (budgetDoc.exists) {
           final data = budgetDoc.data() as Map<String, dynamic>;
@@ -189,7 +188,7 @@ class _HomePageState extends State<HomePage> {
           }
         }
 
-        // 获取该月的income
+        
         double monthIncome = 0;
         QuerySnapshot incomeSnapshot = await _firestore
             .collection('financialData')
@@ -217,7 +216,7 @@ class _HomePageState extends State<HomePage> {
         remainingBudget = remaining;
         monthlyData = recentData;
 
-        // 调试折线图数据
+        
         debugPrint("=== 折线图数据 ===");
         for (int i = 0; i < recentData.length; i++) {
           final data = recentData[i];
@@ -443,7 +442,7 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20), // 为底部导航栏留出空间
+                      SizedBox(height: 20), 
                     ],
                   ),
                 ),
@@ -476,7 +475,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildDateBox(String text, {bool isYear = false}) {
     return Container(
-      width: isYear ? 80 : 120, // 年份格子变短，月份格子变长
+      width: isYear ? 80 : 120, 
       height: 50,
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: BoxDecoration(
@@ -489,7 +488,7 @@ class _HomePageState extends State<HomePage> {
         text,
         style: TextStyle(
           color: Colors.black, 
-          fontSize: isYear ? 20 : 18, // 年份字体稍大，月份字体稍小
+          fontSize: isYear ? 20 : 18, 
         ),
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
@@ -497,7 +496,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ✅ 替换原本的 _buildLegend 函数
   Widget _buildLegend(Color color, String label) {
     return Row(
       children: [
@@ -518,8 +516,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-  // ✅ 替换原本的 _buildNavItem 函数
+  
   Widget _buildNavItem({required IconData icon, required String label, required int index}) {
     final isSelected = _selectedIndex == index;
 
@@ -539,7 +536,7 @@ class _HomePageState extends State<HomePage> {
                     ? const Color.fromARGB(255, 168, 105, 152)
                     : const Color.fromARGB(255, 168, 105, 152),
               ),
-              const SizedBox(height: 6), // 图标和文字之间的间距
+              const SizedBox(height: 6), 
               Flexible(
                 child: Text(
                   label,

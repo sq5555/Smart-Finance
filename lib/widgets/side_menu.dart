@@ -29,7 +29,7 @@ class _SideMenuState extends State<SideMenu> {
     try {
       await _userService.loadUserData();
 
-      // 尝试解析 avatarUrl（如果是 base64）
+      
       if (_userService.avatarUrl.isNotEmpty) {
         try {
           final decoded = base64Decode(_userService.avatarUrl);
@@ -81,7 +81,7 @@ class _SideMenuState extends State<SideMenu> {
           ? Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                // 顶部用户信息区域
+                
                 Container(
                   padding: EdgeInsets.all(20),
                   decoration: BoxDecoration(
@@ -90,10 +90,10 @@ class _SideMenuState extends State<SideMenu> {
                   ),
                   child: Column(
                     children: [
-                      // 头像和用户名
+                     
                       Row(
                         children: [
-                          // 头像
+                          
                           Container(
                             width: 60,
                             height: 60,
@@ -116,7 +116,7 @@ class _SideMenuState extends State<SideMenu> {
                                 : null,
                           ),
                           SizedBox(width: 15),
-                          // 用户名
+                          
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +130,7 @@ class _SideMenuState extends State<SideMenu> {
                                   ),
                                 ),
                                 SizedBox(height: 8),
-                                // Edit Profile 按钮
+                                // Edit Profile 
                                 GestureDetector(
                                   onTap: () async {
                                     await Navigator.pushNamed(
@@ -165,7 +165,7 @@ class _SideMenuState extends State<SideMenu> {
                 ),
                 SizedBox(height: 30),
 
-                // 导航选项
+                
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15),
@@ -222,7 +222,7 @@ class _SideMenuState extends State<SideMenu> {
                   ),
                 ),
 
-                // 底部退出按钮
+                
                 Padding(
                   padding: EdgeInsets.all(20),
                   child: Align(

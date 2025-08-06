@@ -53,7 +53,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Future<void> _checkFirebaseAvailability() async {
     debugPrint('Checking Firebase availability...');
     try {
-      // 检查Firebase Auth是否可用
+      
       User? currentUser = FirebaseAuth.instance.currentUser;
       if (currentUser != null) {
         debugPrint('Firebase Auth is available');
@@ -74,14 +74,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
     }
   }
 
-  // 从Firebase Authentication获取用户信息
   Future<void> _loadUserData() async {
     setState(() {
       _isLoading = true;
     });
 
     try {
-      // 使用UserService加载用户数据
+      
       await _userService.loadUserData();
 
       User? currentUser = FirebaseAuth.instance.currentUser;
@@ -97,7 +96,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           _registrationDateController.text = _userService.registrationDate;
         });
 
-        // 新增：加载本地头像
+        
         String? imageData = await _localStorage.getImageLocally(_userID!);
         if (imageData != null) {
           setState(() {
@@ -174,7 +173,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
       if (imageFile != null) {
         debugPrint('图片选择成功: ${imageFile.path}');
 
-        // 暂时使用本地存储，避免Firebase Storage的问题
+      
         String? imageData = await _localStorage.saveImageLocally(imageFile, _userID ?? 'temp');
         if (imageData != null) {
           debugPrint('图片保存到本地成功');
@@ -209,10 +208,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
     });
 
     try {
-      // 只更新用户名，不处理头像
+     
       await _userService.updateUsername(_usernameController.text);
 
-      // 重新加载用户数据以确保同步
+      
       await _userService.loadUserData();
       await _loadUserData();
 
@@ -220,7 +219,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
         SnackBar(content: Text('Profile saved successfully!')),
       );
 
-      // 延迟一下再返回，确保数据已更新
+      
     } catch (e) {
       debugPrint('Exception during save: $e');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -245,7 +244,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
           _username = _userService.username;
           _email = _userService.email;
           _registrationDate = _userService.registrationDate;
-          _selectedImageBase64 = null; // 不加载头像
+          _selectedImageBase64 = null; // 
           _userIdController.text = currentUser.uid;
           _usernameController.text = _userService.username;
           _emailController.text = _userService.email;
@@ -520,7 +519,7 @@ Align(
   ),
 ),
 
-SizedBox(height: 40), // 👈 给 Save 按钮底部留空间
+SizedBox(height: 40), 
           ],
         ),
       ),

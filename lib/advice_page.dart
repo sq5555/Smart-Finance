@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'gemini_service.dart';  // 导入你写的服务文件
+import 'gemini_service.dart';  
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -32,16 +32,16 @@ class _AdvicePageState extends State<AdvicePage> {
       final doc = await FirebaseFirestore.instance.collection('financialData').doc(userId).get();
       final data = doc.data() ?? {};
 
-      // 读取分类预算和支出
+      
       final categoryBudgets = data['categoryBudgets'] is Map ? Map<String, dynamic>.from(data['categoryBudgets']) : {};
       final categoryExpenses = data['categoryExpenses'] is Map ? Map<String, dynamic>.from(data['categoryExpenses']) : {};
 
-      // 读取目标、储蓄、债务
+      
       final goal = data['goal'] ?? '';
       final debts = data['debts'] ?? 0;
       final savings = data['savings'] ?? 0;
 
-      // 统计本月收入
+      
       double totalIncome = 0;
       final incomeSnapshot = await FirebaseFirestore.instance.collection('financialData').doc(userId).collection('income').get();
       final now = DateTime.now();
@@ -53,7 +53,7 @@ class _AdvicePageState extends State<AdvicePage> {
         }
       }
 
-      // 统计本月支出
+      
       double totalExpenditure = 0;
       final expenditureSnapshot = await FirebaseFirestore.instance.collection('financialData').doc(userId).collection('expenditure').get();
       for (var doc in expenditureSnapshot.docs) {
@@ -64,7 +64,7 @@ class _AdvicePageState extends State<AdvicePage> {
         }
       }
 
-      // 拼接 prompt
+      
       String prompt = '''
 You are a helpful and expert financial advisor for a mobile finance management application. Your goal is to analyze user financial data and provide clear, actionable, and personalized advice or insights.
 
@@ -94,7 +94,7 @@ Provide a concise, summary-style advice. Do NOT use JSON.
 Start with an overall budget status. Then, for each category, provide a brief status (Over/Under/On Track) and a very short, actionable tip. Conclude with 2-3 general, actionable tips. Keep sentences short and direct for mobile display. Do not use any asterisk or * in your answer.
 ''';
 
-      // 调用 Gemini
+      
       String result = await geminiService.getFinancialAdvice(prompt);
       setState(() { advice = result.replaceAll('*', ''); });
     } catch (e) {

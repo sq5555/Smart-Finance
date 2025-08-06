@@ -84,7 +84,7 @@ class _ExpensesSuggestionPageState extends State<ExpensesSuggestionPage> {
   }
 
   void fetchAdviceWithData(String userQuestion) async {
-    // 如果没有输入问题，自动用默认prompt
+    
     final String actualQuestion = userQuestion.trim().isEmpty
         ? 'Please give me advice based on my financial situation.'
         : userQuestion;
@@ -112,11 +112,11 @@ class _ExpensesSuggestionPageState extends State<ExpensesSuggestionPage> {
         return;
       }
 
-      // Fetch all financial data from database
+      
       final doc = await FirebaseFirestore.instance.collection('financialData').doc(userId).get();
       final data = doc.data() ?? {};
 
-      // Get current month data
+      
       final now = DateTime.now();
       final currentMonth = now.month;
       final currentYear = now.year;
@@ -223,10 +223,7 @@ Do not use any asterisk or * in your answer.
         advice = result.replaceAll('*', '');
         isLoading = false;
       });
-      // 移除自动清空输入框逻辑
-      // WidgetsBinding.instance.addPostFrameCallback((_) {
-      //   _controller.clear();
-      // });
+     
 
     } catch (e) {
       debugPrint('Sorry, I couldn\'t generate advice at the moment. Please try again later.');
@@ -318,7 +315,7 @@ Do not use any asterisk or * in your answer.
           padding: const EdgeInsets.all(20.0),
           child: Listener(
             onPointerDown: (_) {
-              // 收起键盘
+              
               FocusScope.of(context).unfocus();
             },
             behavior: HitTestBehavior.translucent,
@@ -386,7 +383,7 @@ Do not use any asterisk or * in your answer.
                         onPressed: isLoading
                             ? null
                             : () {
-                          // 收回键盘
+                         
                           FocusScope.of(context).unfocus();
                           final question = _controller.text.trim();
                           fetchAdviceWithData(question);
@@ -408,14 +405,14 @@ Do not use any asterisk or * in your answer.
                             : Icon(Icons.send),
                       ),
                       SizedBox(width: 6),
-                      // 智能建议按钮
+                      
                       IconButton(
                         tooltip: 'Get smart advice',
                         icon: Icon(Icons.tips_and_updates, color: Color.fromARGB(255, 195, 98, 138), size: 28),
                         onPressed: isLoading
                             ? null
                             : () {
-                          // 收回键盘
+                          
                           FocusScope.of(context).unfocus();
                           fetchAdviceWithData('');
                         },
@@ -423,7 +420,7 @@ Do not use any asterisk or * in your answer.
                     ],
                   ),
                   SizedBox(height: 20),
-                  // AI对话框
+                  
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.35,
                     width: double.infinity,
@@ -448,7 +445,7 @@ Do not use any asterisk or * in your answer.
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // 对话框头部
+                                
                                 Container(
                                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                   decoration: BoxDecoration(
@@ -477,7 +474,7 @@ Do not use any asterisk or * in your answer.
                                     ],
                                   ),
                                 ),
-                                // 对话框内容
+                               
                                 Expanded(
                                   child: Container(
                                     padding: EdgeInsets.all(16),
@@ -505,7 +502,7 @@ Do not use any asterisk or * in your answer.
                             ),
                           ),
                         ),
-                        // 对话框尾巴
+                        
                         Container(
                           margin: EdgeInsets.only(right: 20),
                           child: CustomPaint(
@@ -517,7 +514,7 @@ Do not use any asterisk or * in your answer.
                     ),
                   ),
                   SizedBox(height: 20),
-                  // 底部logo
+                 
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Container(

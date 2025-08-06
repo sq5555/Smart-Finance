@@ -48,7 +48,7 @@ class _EditBillPageState extends State<EditBillPage> {
   Future<void> _autoGenerateRecurringBills(List<Map<String, dynamic>> billsList) async {
     final now = DateTime.now();
     final recurringBills = billsList.where((b) => b['isRecurring'] == true).toList();
-    // 获取已取消的recurringId
+    
     final cancelledSnapshot = await _firestore
         .collection('financialData')
         .doc(userId)
@@ -58,18 +58,18 @@ class _EditBillPageState extends State<EditBillPage> {
     bool updated = false;
     for (var bill in recurringBills) {
       final dueDate = DateTime.parse(bill['dueDate']);
-      // 检查是否为本月账单
+     
       if (dueDate.year == now.year && dueDate.month == now.month) continue;
-      // 检查是否被取消
+      
       if (cancelledIds.contains(bill['recurringId'])) continue;
-      // 检查本月是否已生成
+      
       final exists = billsList.any((b) =>
       b['recurringId'] == bill['recurringId'] &&
           DateTime.parse(b['dueDate']).year == now.year &&
           DateTime.parse(b['dueDate']).month == now.month
       );
       if (!exists) {
-        // 生成新账单
+        
         final newBill = {
           ...bill,
           'dueDate': DateTime(now.year, now.month, dueDate.day).toIso8601String(),
@@ -102,9 +102,9 @@ class _EditBillPageState extends State<EditBillPage> {
             return <String, dynamic>{};
           }
         }).where((bill) => bill.isNotEmpty).toList();
-        // 自动生成周期性账单
+        
         await _autoGenerateRecurringBills(billsList);
-        // 重新获取（如有新账单）
+        
         DocumentSnapshot doc2 = await _firestore.collection('financialData').doc(userId).get();
         final List<dynamic> bills2 = (doc2.data() as Map<String, dynamic>)['bills'] ?? [];
         List<Map<String, dynamic>> billsList2 = bills2.map((bill) {
@@ -118,7 +118,7 @@ class _EditBillPageState extends State<EditBillPage> {
             return <String, dynamic>{};
           }
         }).where((bill) => bill.isNotEmpty).toList();
-        // 按dueDate排序
+        
         billsList2.sort((a, b) {
           final aDate = DateTime.parse(a['dueDate']);
           final bDate = DateTime.parse(b['dueDate']);
@@ -265,7 +265,7 @@ class _EditBillPageState extends State<EditBillPage> {
                         onPressed: () async {
                           double? parsedAmount = double.tryParse(amountController.text);
                           if (parsedAmount != null) {
-                            // 找到并更新_allBillDocs中的对应账单
+                            
                             final allBillIndex = _allBillDocs.indexWhere((b) =>
                             b['category'] == billData['category'] &&
                                 b['amount'] == billData['amount'] &&
@@ -281,15 +281,15 @@ class _EditBillPageState extends State<EditBillPage> {
                               };
                             }
 
-                            // 更新Firestore
+                            
                             await _firestore.collection('financialData').doc(userId).update({
                               'bills': _allBillDocs
                             });
 
-                            // 重新加载数据
+                           
                             _loadBillData();
 
-                            // 显示成功消息
+                            
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text('Bill updated successfully!'),
@@ -368,7 +368,7 @@ class _EditBillPageState extends State<EditBillPage> {
 
   Future<void> _markBillAsPaid(Map<String, dynamic> billData, int index) async {
     try {
-      // 1. 找到并更新_allBillDocs中的对应账单
+      
       final allBillIndex = _allBillDocs.indexWhere((b) =>
       b['category'] == billData['category'] &&
           b['amount'] == billData['amount'] &&
@@ -382,21 +382,21 @@ class _EditBillPageState extends State<EditBillPage> {
         };
       }
 
-      // 2. 更新Firestore中的bills
+      
       await _firestore.collection('financialData').doc(userId).update({
         'bills': _allBillDocs
       });
 
-      // 3. 将付款金额添加到expenditures
+      
       await _addToExpenditures(billData);
 
-      // 4. 取消提醒
+      
       await cancelBillReminders(billData);
 
-      // 5. 重新加载数据
+      
       _loadBillData();
 
-      // 6. 显示成功消息
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Bill marked as paid successfully!'),
@@ -416,7 +416,7 @@ class _EditBillPageState extends State<EditBillPage> {
 
   Future<void> _addToExpenditures(Map<String, dynamic> billData) async {
     try {
-      // 添加付款记录到expenditures collection
+      
       await _firestore
           .collection('financialData')
           .doc(userId)
@@ -529,7 +529,7 @@ class _EditBillPageState extends State<EditBillPage> {
             index: index,
             onEdit: () => _showEditDialog(bill, index),
             onDelete: () async {
-              // 删除周期性账单时，记录取消
+              
               if (bill['isRecurring'] == true && bill['recurringId'] != null) {
                 await _firestore
                     .collection('financialData')
@@ -539,15 +539,15 @@ class _EditBillPageState extends State<EditBillPage> {
                     .set({'cancelled': true});
               }
 
-              // 从_allBillDocs中移除账单
+              
               _allBillDocs.remove(bill);
 
-              // 更新Firestore
+              
               await _firestore.collection('financialData').doc(userId).update({
                 'bills': _allBillDocs
               });
 
-              // 重新加载数据
+              
               _loadBillData();
             },
           );
@@ -568,7 +568,7 @@ class _EditBillPageState extends State<EditBillPage> {
     final bool isPaid = billData['paid'] ?? false;
 
     return Container(
-      height: 135, // 竖向排布，适中高度
+      height: 135, 
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.grey)),
       ),

@@ -22,10 +22,10 @@ class ExpenditurePage extends StatelessWidget {
 
   ExpenditurePage({super.key});
 
-  // 更新总支出金额的方法
+  
   Future<void> _updateTotalExpenditure(double newAmount) async {
     try {
-      // 获取当前总支出
+      
       DocumentSnapshot doc = await FirebaseFirestore.instance
           .collection('financialData')
           .doc(userId)
@@ -37,7 +37,7 @@ class ExpenditurePage extends StatelessWidget {
         currentTotal = (data['expenditure'] ?? 0).toDouble();
       }
 
-      // 更新总支出
+      
       await FirebaseFirestore.instance
           .collection('financialData')
           .doc(userId)
@@ -56,13 +56,13 @@ class ExpenditurePage extends StatelessWidget {
       context: context,
       builder: (_) => GestureDetector(
         onTap: () {
-          FocusScope.of(context).unfocus(); // 点击对话框外部收回键盘
+          FocusScope.of(context).unfocus(); 
         },
         child: AlertDialog(
           backgroundColor: cardColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           content: Container(
-            height: MediaQuery.of(context).size.height * 0.20, // 固定高度
+            height: MediaQuery.of(context).size.height * 0.20, 
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -71,18 +71,18 @@ class ExpenditurePage extends StatelessWidget {
                   Row(
                     children: [
                       Icon(icon, color: Colors.black, size: 50),
-                      const SizedBox(width: 15), // 减少间距
+                      const SizedBox(width: 15), 
                       Expanded(
                         child: Text(
                           label,
                           style: TextStyle(
-                            fontSize: 22, // 减小字体
+                            fontSize: 22, 
                             fontWeight: FontWeight.bold,
                             color: Colors.pink[900],
                           ),
-                          maxLines: 2, // 允许最多2行
-                          overflow: TextOverflow.ellipsis, // 超出显示省略号
-                          softWrap: true, // 启用软换行
+                          maxLines: 2, 
+                          overflow: TextOverflow.ellipsis, 
+                          softWrap: true, 
                         ),
                       ),
                     ],
@@ -123,7 +123,7 @@ class ExpenditurePage extends StatelessWidget {
                           final value = double.tryParse(controller.text);
                           if (value != null && value > 0) {
                             try {
-                              // 更新支出数据
+                              
                               await FirebaseFirestore.instance
                                   .collection('financialData')
                                   .doc(userId)
@@ -134,7 +134,7 @@ class ExpenditurePage extends StatelessWidget {
                                 'date': Timestamp.now(),
                               });
 
-                              // 更新总支出金额
+                              
                               await _updateTotalExpenditure(value);
 
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -147,7 +147,7 @@ class ExpenditurePage extends StatelessWidget {
 
                               Navigator.pop(context, true);
                             } catch (e) {
-                              // 显示错误提示
+                              
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text('Error saving data: $e'),
@@ -157,7 +157,7 @@ class ExpenditurePage extends StatelessWidget {
                               );
                             }
                           } else {
-                            // 显示输入错误提示
+                            
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Please enter a valid amount greater than 0'),
@@ -198,7 +198,7 @@ class ExpenditurePage extends StatelessWidget {
           child: Stack(
             children: [
               SingleChildScrollView(
-                padding: const EdgeInsets.only(bottom: 120), // 预留按钮空间
+                padding: const EdgeInsets.only(bottom: 120), 
                 child: Column(
                   children: [
                     const SizedBox(height: 25),
@@ -261,7 +261,7 @@ class ExpenditurePage extends StatelessWidget {
                   ],
                 ),
               ),
-              // 固定右下角按钮（不随键盘浮动）
+              
               Positioned(
                 bottom: 20,
                 right: 20,

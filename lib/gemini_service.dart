@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'config/api_config.dart';
 
 class GeminiService {
-  // 使用安全的API配置
+  
   final String apiKey = ApiConfig.geminiApiKey;
   // OpenRouter endpoint
   final String endpoint = ApiConfig.openRouterEndpoint;
-  // 使用默认模型
+  
   final String model = ApiConfig.defaultModel;
 
   Future<String> getFinancialAdvice(String prompt) async {

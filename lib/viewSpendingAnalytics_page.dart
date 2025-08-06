@@ -23,7 +23,7 @@ class _ViewSpendingAnalyticsPageState
       12, (index) => DateFormat('MMMM').format(DateTime(0, index + 1)));
   List<int> years = List.generate(30, (index) => 2020 + index);
 
-  // 数据变量
+  
   double totalIncome = 0.0;
   double totalExpenditure = 0.0;
   double balance = 0.0;
@@ -45,11 +45,11 @@ class _ViewSpendingAnalyticsPageState
 
   Future<void> fetchData() async {
     try {
-      // 获取选择的月份对应的数字
+      
       final monthIndex = months.indexOf(selectedMonth) + 1;
       final monthKey = '${selectedYear}_${monthIndex.toString().padLeft(2, '0')}';
 
-      // 获取该月的income数据
+      
       double income = 0;
       QuerySnapshot incomeSnapshot = await _firestore
           .collection('financialData')
@@ -65,7 +65,7 @@ class _ViewSpendingAnalyticsPageState
         }
       }
 
-      // 获取该月的expenditure数据
+      
       double expenditure = 0;
       Map<String, double> categories = {};
 
@@ -87,7 +87,7 @@ class _ViewSpendingAnalyticsPageState
         }
       }
 
-      // 获取该月saving
+      
       double currentSaving = 0;
       DocumentSnapshot doc = await _firestore.collection('financialData').doc(userId).get();
       if (doc.exists) {
@@ -134,7 +134,7 @@ class _ViewSpendingAnalyticsPageState
                     .toList(),
                 onChanged: (value) {
                   setState(() => selectedYear = value!);
-                  fetchData(); // 获取新数据
+                  fetchData(); 
                 },
               ),
             ),
@@ -158,7 +158,7 @@ class _ViewSpendingAnalyticsPageState
                     .toList(),
                 onChanged: (value) {
                   setState(() => selectedMonth = value!);
-                  fetchData(); // 获取新数据
+                  fetchData(); 
                 },
               ),
             ),
@@ -205,25 +205,25 @@ class _ViewSpendingAnalyticsPageState
       final amount = entry.value.value;
       final percentage = total > 0 ? (amount / total * 100).round() : 0;
 
-      // 只显示百分比，不显示category名称
-      final shouldShowText = percentage >= 1; // 显示1%以上的文字，让所有百分比都显示
+      
+      final shouldShowText = percentage >= 1; 
 
       return PieChartSectionData(
         color: colors[index % colors.length],
         value: amount,
-        title: shouldShowText ? '$percentage%' : '', // 只显示百分比
+        title: shouldShowText ? '$percentage%' : '', 
         radius: 120,
         titleStyle: TextStyle(
-          fontSize: 12, // 稍微增大字体
+          fontSize: 12, 
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
-        titlePositionPercentageOffset: 0.6, // 调整文字位置
+        titlePositionPercentageOffset: 0.6, 
       );
     }).toList();
   }
 
-  // 获取颜色列表（与饼图保持一致）
+  
   List<Color> _getColors() {
     return [
       Color.fromARGB(255, 45, 116, 152),
@@ -249,10 +249,10 @@ class _ViewSpendingAnalyticsPageState
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // 顶部间距（为BasePage的固定菜单留出空间）
+                  
                   SizedBox(height: 60),
 
-                  // 标题
+                 
                    Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -278,7 +278,7 @@ class _ViewSpendingAnalyticsPageState
                   _buildDateSelector(),
                   SizedBox(height: 20),
 
-                  // 饼图（更紧凑）
+                  
                   SizedBox(
                     height: 320,
                     child: PieChart(
@@ -291,7 +291,7 @@ class _ViewSpendingAnalyticsPageState
                   ),
                   SizedBox(height: 10),
 
-                  // 添加图例
+                  
                   if (categoryExpenditures.isNotEmpty) ...[
                     Container(
                       padding: EdgeInsets.all(15),
@@ -324,7 +324,7 @@ class _ViewSpendingAnalyticsPageState
                               padding: EdgeInsets.symmetric(vertical: 4),
                               child: Row(
                                 children: [
-                                  // 颜色小圆圈
+                                
                                   Container(
                                     width: 16,
                                     height: 16,
@@ -335,7 +335,7 @@ class _ViewSpendingAnalyticsPageState
                                     ),
                                   ),
                                   SizedBox(width: 10),
-                                  // Category名称
+                                  
                                   Expanded(
                                     child: Text(
                                       category,
@@ -345,7 +345,7 @@ class _ViewSpendingAnalyticsPageState
                                       ),
                                     ),
                                   ),
-                                  // 金额和百分比
+                                 
                                   Flexible(
                                     child: Text(
                                       'RM ${amount.toStringAsFixed(2)} ($percentage%)',
@@ -368,7 +368,7 @@ class _ViewSpendingAnalyticsPageState
                     SizedBox(height: 15),
                   ],
 
-                  // 信息框
+                 
                   _buildInfoBox('Total Income:', 'RM ${totalIncome.toStringAsFixed(2)}', Colors.green),
                   SizedBox(height: 8),
                   _buildInfoBox('Total Expenditure:', 'RM ${totalExpenditure.toStringAsFixed(2)}', Colors.red),
@@ -378,7 +378,7 @@ class _ViewSpendingAnalyticsPageState
                   _buildInfoBox('Balance:', 'RM ${balance.toStringAsFixed(2)}', Colors.blue),
                   SizedBox(height: 15),
 
-                  // 按钮
+                 
                   Align(
                     alignment: Alignment.centerRight,
                     child: ElevatedButton(

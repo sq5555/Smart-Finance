@@ -22,10 +22,10 @@ class IncomePage extends StatelessWidget {
 
   IncomePage({super.key});
 
-  // 更新总收入金额的方法
+  
   Future<void> _updateTotalIncome(double newAmount) async {
     try {
-      // 获取当前总收入
+     
       DocumentSnapshot doc = await FirebaseFirestore.instance
           .collection('financialData')
           .doc(userId)
@@ -37,7 +37,7 @@ class IncomePage extends StatelessWidget {
         currentTotal = (data['income'] ?? 0).toDouble();
       }
 
-      // 更新总收入
+      
       await FirebaseFirestore.instance
           .collection('financialData')
           .doc(userId)
@@ -253,7 +253,7 @@ class IncomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              // 固定在右下角的Edit Records按钮
+              
               Positioned(
                 bottom: 20,
                 right: 20,

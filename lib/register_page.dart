@@ -88,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // 点击任何地方收回键盘
+        
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(

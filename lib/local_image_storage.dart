@@ -12,7 +12,7 @@ class LocalImageStorage {
   static const String _keyPrefix = 'user_image_';
   static const String _profilePrefix = 'user_profile_';
 
-  // 选择图片
+  
   Future<File?> pickImage({
     ImageSource source = ImageSource.gallery,
     double maxWidth = 512,
@@ -37,7 +37,7 @@ class LocalImageStorage {
     }
   }
 
-  // 保存图片到本地存储
+ 
   Future<String?> saveImageLocally(File imageFile, String userId) async {
     try {
       final List<int> imageBytes = await imageFile.readAsBytes();
@@ -53,7 +53,7 @@ class LocalImageStorage {
     }
   }
 
-  // 从本地存储获取图片
+  
   Future<String?> getImageLocally(String userId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -64,7 +64,7 @@ class LocalImageStorage {
     }
   }
 
-  // 保存用户资料到本地
+  
   Future<bool> saveUserProfile(String userId, Map<String, dynamic> profile) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -77,7 +77,7 @@ class LocalImageStorage {
     }
   }
 
-  // 从本地获取用户资料
+  
   Future<Map<String, dynamic>?> getUserProfile(String userId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -92,7 +92,7 @@ class LocalImageStorage {
     }
   }
 
-  // 删除本地图片
+  
   Future<bool> deleteImageLocally(String userId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -104,7 +104,7 @@ class LocalImageStorage {
     }
   }
 
-  // 删除用户资料
+  
   Future<bool> deleteUserProfile(String userId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -117,7 +117,7 @@ class LocalImageStorage {
     }
   }
 
-  // 获取所有用户ID
+  
   Future<List<String>> getAllUserIds() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -138,7 +138,7 @@ class LocalImageStorage {
     }
   }
 
-  // 检查存储空间
+  
   Future<Map<String, dynamic>> getStorageInfo() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -176,7 +176,7 @@ class LocalImageStorage {
     }
   }
 
-  // 清理过期数据
+  
   Future<bool> cleanupOldData({int maxAgeDays = 30}) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -203,7 +203,7 @@ class LocalImageStorage {
                 }
               }
             } catch (e) {
-              // 如果解析失败，删除损坏的数据
+              
               await prefs.remove(key);
               cleanedCount++;
             }

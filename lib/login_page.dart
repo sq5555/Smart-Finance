@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'register_page.dart';
-import 'home_page.dart'; // 登录成功后跳转的页面
+import 'home_page.dart'; 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 class LoginPage extends StatefulWidget {
@@ -35,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('user_id', user.uid);
 
-  // 跳转到主页
+  
   Navigator.pushReplacement(
     context,
     MaterialPageRoute(builder: (_) => HomePage()),
@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // 点击任何地方收回键盘
+        
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(

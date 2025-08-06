@@ -38,10 +38,10 @@ class _BasePageState extends State<BasePage> {
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          // 主内容
+         
           widget.child,
 
-          // 菜单按钮
+          
           Positioned(
             top: MediaQuery.of(context).padding.top + 10,
             right: 20,
@@ -55,7 +55,7 @@ class _BasePageState extends State<BasePage> {
             ),
           ),
 
-          // 侧边菜单
+          
           if (_isMenuOpen)
             Positioned(
               top: 0,

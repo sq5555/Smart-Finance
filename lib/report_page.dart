@@ -28,7 +28,7 @@ class _ReportPageState extends State<ReportPage> {
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  // 数据变量
+  
   double totalIncome = 0.0;
   double totalExpenditure = 0.0;
   double totalSaving = 0.0;
@@ -53,11 +53,11 @@ class _ReportPageState extends State<ReportPage> {
 
   Future<void> fetchReportData() async {
     try {
-      // 获取选择的月份对应的数字
+      
       final monthIndex = months.indexOf(selectedMonth) + 1;
       final year = int.parse(selectedYear);
 
-      // 获取budget
+      
       DocumentSnapshot budgetDoc = await _firestore.collection('financialData').doc(userId).get();
       if (budgetDoc.exists) {
         final data = budgetDoc.data() as Map<String, dynamic>;
@@ -74,7 +74,7 @@ class _ReportPageState extends State<ReportPage> {
         }
       }
 
-      // 获取该月的income数据
+      
       double income = 0;
       Map<String, double> incomeCategories = {};
       QuerySnapshot incomeSnapshot = await _firestore
@@ -95,7 +95,7 @@ class _ReportPageState extends State<ReportPage> {
         }
       }
 
-      // 获取该月的expenditure数据
+      
       double expenditure = 0;
       Map<String, double> expenditureCategories = {};
       QuerySnapshot expenditureSnapshot = await _firestore
@@ -116,7 +116,7 @@ class _ReportPageState extends State<ReportPage> {
         }
       }
 
-      // 获取该月的saving数据
+      
       double saving = 0;
       if (budgetDoc.exists) {
         final data = budgetDoc.data() as Map<String, dynamic>;
@@ -127,10 +127,10 @@ class _ReportPageState extends State<ReportPage> {
         }
       }
 
-      // 计算remaining budget
+      
       double remaining = budget - expenditure - saving;
 
-      // 转换数据格式
+      
       List<Map<String, dynamic>> incomeList = incomeCategories.entries.map((entry) {
         return {
           'name': entry.key,
@@ -169,7 +169,7 @@ class _ReportPageState extends State<ReportPage> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                // 标题和logo
+                
                 Row(
                   children: [
                     Container(
@@ -202,7 +202,7 @@ class _ReportPageState extends State<ReportPage> {
 
                 SizedBox(height: 20),
 
-                // 年/月选择器 - 使用与viewSpendingAnalytics页面相同的样式
+                
                 Row(
                   children: [
                     Container(
@@ -251,7 +251,7 @@ class _ReportPageState extends State<ReportPage> {
 
                 SizedBox(height: 25),
 
-                // 报告白格
+               
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -280,7 +280,7 @@ class _ReportPageState extends State<ReportPage> {
 
                           SizedBox(height: 25),
 
-                          // 收入详情
+                         
                           if (incomeDetails.isNotEmpty)
                             Text('Income Details',
                                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
@@ -289,7 +289,7 @@ class _ReportPageState extends State<ReportPage> {
 
                           SizedBox(height: 25),
 
-                          // 支出详情
+                          
                           if (expenditureDetails.isNotEmpty)
                             Text('Expenditure Details',
                                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
@@ -303,7 +303,7 @@ class _ReportPageState extends State<ReportPage> {
 
                 SizedBox(height: 20),
 
-                // 导出按钮
+                
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
@@ -444,7 +444,7 @@ class _ReportPageState extends State<ReportPage> {
   try {
     final pdf = pw.Document();
 
-    // 👉 在这里定义 _buildRow 方法
+    
     pw.TableRow _buildRow(String title, String value) {
       return pw.TableRow(
         children: [
@@ -477,7 +477,7 @@ class _ReportPageState extends State<ReportPage> {
                   style: pw.TextStyle(fontSize: 14)),
               pw.SizedBox(height: 16),
 
-              // 表格展示主要数据
+              
               pw.Table(
                 border: pw.TableBorder.all(color: PdfColors.grey300),
                 defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,

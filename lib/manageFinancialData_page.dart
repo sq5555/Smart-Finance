@@ -209,7 +209,7 @@ class _ManageFinancialDataState extends State<ManageFinancialData> {
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           content: Container(
-            height: MediaQuery.of(context).size.height * 0.4, // 使用屏幕高度的60%
+            height: MediaQuery.of(context).size.height * 0.4, 
             width: MediaQuery.of(context).size.width * 0.8,
             child: SingleChildScrollView(
               child: StatefulBuilder(
@@ -357,14 +357,14 @@ class _ManageFinancialDataState extends State<ManageFinancialData> {
     'recurringId': isRecurring ? recurringId : null,
   };
 
-  // ⚠️ 确保 'bills' 字段存在
+  
   final docRef = _firestore.collection('financialData').doc(userId);
   final docSnapshot = await docRef.get();
   if (!docSnapshot.exists || !(docSnapshot.data()?['bills'] is List)) {
     await docRef.set({'bills': []}, SetOptions(merge: true));
   }
 
-  // ⏰ 设置通知（提前 1 分钟）
+  
   try {
   final now = DateTime.now();
   final scheduledDate = now.add(Duration(minutes: 1));
@@ -391,7 +391,6 @@ class _ManageFinancialDataState extends State<ManageFinancialData> {
     print("Notification error: $e");
   }
 
-  // ✅ 添加账单
   try {
     await docRef.update({
       'bills': FieldValue.arrayUnion([newBill])
@@ -527,7 +526,7 @@ class _ManageFinancialDataState extends State<ManageFinancialData> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 顶部间距（为BasePage的固定菜单留出空间）
+                  
                   SizedBox(height: 50),
                   
                   // Title

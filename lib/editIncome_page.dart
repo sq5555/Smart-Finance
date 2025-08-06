@@ -179,16 +179,16 @@ class _EditIncomePageState extends State<EditIncomePage> {
                       final value = double.tryParse(controller.text);
                       if (value != null && value > 0) {
                         try {
-                          // 先减去原始金额
+                          
                           await _updateTotalIncome(originalAmount, true);
 
-                          // 更新记录
+                          
                           await doc.reference.update({
                             'amount': value,
                             'date': DateTime.now(),
                           });
 
-                          // 加上新金额
+                          
                           await _updateTotalIncome(value, false);
 
                           Navigator.pop(context);
