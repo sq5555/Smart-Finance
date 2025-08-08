@@ -23,31 +23,31 @@ class ImageStorageService {
     return _storage!;
   }
 
-  // 使用Firebase Storage上传图片并返回下载URL
+  
   Future<String?> uploadImageToStorage(File imageFile, String userId) async {
     try {
       print('开始上传图片到Firebase Storage...');
       print('用户ID: $userId');
       print('文件路径: ${imageFile.path}');
 
-      // 创建存储引用
+      
       final Reference storageRef = storage.ref().child('user_avatars/$userId.jpg');
       print('存储引用路径: ${storageRef.fullPath}');
 
-      // 上传文件
+      
       print('开始上传文件...');
       final UploadTask uploadTask = storageRef.putFile(imageFile);
       final TaskSnapshot snapshot = await uploadTask;
       print('文件上传完成');
 
-      // 获取下载URL
+      
       print('获取下载URL...');
       final String downloadUrl = await snapshot.ref.getDownloadURL();
 
       print('图片上传成功，下载URL: $downloadUrl');
       print('URL长度: ${downloadUrl.length}');
 
-      // 为了兼容Firebase Auth的photoURL长度限制，只存储用户ID
+      
       print('使用用户ID作为头像标识符');
       return 'avatar_$userId';
     } catch (e) {
@@ -57,7 +57,7 @@ class ImageStorageService {
     }
   }
 
-  // 删除Firebase Storage中的图片
+  
   Future<bool> deleteImageFromStorage(String userId) async {
     try {
       final Reference storageRef = storage.ref().child('user_avatars/$userId.jpg');
@@ -69,14 +69,14 @@ class ImageStorageService {
     }
   }
 
-  // 方案1: 使用Firestore存储Base64图片
+  
   Future<String?> uploadImageToFirestore(File imageFile, String userId) async {
     try {
-      // 压缩图片
+      
       final List<int> imageBytes = await imageFile.readAsBytes();
       final String base64Image = base64Encode(imageBytes);
 
-      // 存储到Firestore
+      
       await firestore
           .collection('user_images')
           .doc(userId)
@@ -93,7 +93,7 @@ class ImageStorageService {
     }
   }
 
-  // 从Firestore获取图片
+ 
   Future<String?> getImageFromFirestore(String userId) async {
     try {
       final DocumentSnapshot doc = await firestore
@@ -112,19 +112,15 @@ class ImageStorageService {
     }
   }
 
-  // 方案2: 使用Firestore存储图片URL（如果你有其他云存储服务）
+  
   Future<String?> uploadImageToExternalStorage(File imageFile, String userId) async {
     try {
-      // 这里可以集成其他云存储服务，如阿里云OSS、腾讯云COS等
-      // 示例：上传到外部服务后获取URL
-      // final String imageUrl = await uploadToExternalService(imageFile);
-
-      // 存储URL到Firestore
+      
       await firestore
           .collection('user_images')
           .doc(userId)
           .set({
-        'imageUrl': 'https://example.com/images/$userId.jpg', // 替换为实际URL
+        'imageUrl': 'https://example.com/images/$userId.jpg', 
         'uploadTime': FieldValue.serverTimestamp(),
       });
 
@@ -135,13 +131,13 @@ class ImageStorageService {
     }
   }
 
-  // 方案3: 分块存储大图片
+  
   Future<String?> uploadLargeImageToFirestore(File imageFile, String userId) async {
     try {
       final List<int> imageBytes = await imageFile.readAsBytes();
       final String base64Image = base64Encode(imageBytes);
 
-      // 如果图片太大，分块存储
+      
       const int chunkSize = 1000000; // 1MB per chunk
       final int totalChunks = (base64Image.length / chunkSize).ceil();
 
@@ -164,7 +160,7 @@ class ImageStorageService {
         });
       }
 
-      // 存储元数据
+      
       await firestore
           .collection('user_images')
           .doc(userId)
@@ -183,7 +179,7 @@ class ImageStorageService {
     }
   }
 
-  // 获取分块存储的图片
+  
   Future<String?> getChunkedImageFromFirestore(String userId) async {
     try {
       final DocumentSnapshot metadataDoc = await firestore
@@ -218,7 +214,7 @@ class ImageStorageService {
     }
   }
 
-  // 选择图片
+  
   Future<File?> pickImage({
     ImageSource source = ImageSource.gallery,
     double maxWidth = 512,
@@ -243,7 +239,7 @@ class ImageStorageService {
     }
   }
 
-  // 删除图片
+  
   Future<bool> deleteImage(String userId) async {
     try {
       await firestore
@@ -251,7 +247,7 @@ class ImageStorageService {
           .doc(userId)
           .delete();
 
-      // 删除分块数据
+      
       final QuerySnapshot chunks = await firestore
           .collection('user_images')
           .doc(userId)

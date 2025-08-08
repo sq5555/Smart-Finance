@@ -19,7 +19,7 @@ class UserService {
   String get email => _email;
   String get registrationDate => _registrationDate;
 
-  // 加载用户数据
+  
   Future<void> loadUserData() async {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
@@ -28,9 +28,9 @@ class UserService {
         _avatarUrl = currentUser.photoURL ?? '';
         _email = currentUser.email ?? '';
         _registrationDate = _formatDate(currentUser.metadata.creationTime);
-        // 新增：加载本地头像
+        
         try {
-          // 只有 userId 存在时才加载
+          
           final userId = currentUser.uid;
           final localImageStorage = LocalImageStorage();
           String? imageData = await localImageStorage.getImageLocally(userId);
@@ -55,7 +55,7 @@ class UserService {
     }
   }
 
-  // 更新用户名
+  
   Future<void> updateUsername(String newUsername) async {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
@@ -69,7 +69,7 @@ class UserService {
     }
   }
 
-  // 更新头像
+  
   Future<void> updateAvatar(String avatarUrl) async {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
@@ -83,7 +83,7 @@ class UserService {
     }
   }
 
-  // 格式化日期
+  
   String _formatDate(DateTime? date) {
     if (date == null) return 'Unknown';
 
@@ -94,14 +94,14 @@ class UserService {
     return '$year-$month-$day';
   }
 
-  // 获取图片提供者
+  
   ImageProvider getImageProvider(String imageUrl) {
-    // 暂时返回透明图片，避免崩溃
+    
     return MemoryImage(Uint8List.fromList(kTransparentImage));
   }
 }
 
-// 透明图片数据
+
 const List<int> kTransparentImage = <int>[
   0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
   0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52,

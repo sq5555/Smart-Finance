@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 
 class LoginService {
-  static const String loginUrl = 'http://10.0.2.2/smartFinance/login.php'; // Android 模拟器使用 10.0.2.2
+  static const String loginUrl = 'http://10.0.2.2/smartFinance/login.php'; 
 
   static Future<bool> login(String userName, String password) async {
     try {

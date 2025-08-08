@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String apiUrl = 'http://10.0.2.2/smartFinance/register.php'; // PHP 文件的 URL
+  static const String apiUrl = 'http://10.0.2.2/smartFinance/register.php'; 
   static const String loginUrl = 'http://10.0.2.2/smartFinance/login.php';
 
 
@@ -18,7 +18,7 @@ class ApiService {
 
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
-        return data['message'] == 'login_success'; // 对应 login.php 中的返回
+        return data['message'] == 'login_success'; 
       } else {
         return false;
       }
