@@ -8,7 +8,7 @@ class ApiConfig {
     }
     
     // 开发环境下的API密钥（生产环境应使用环境变量）
-    return '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';
+    return '';
   }
 
   // 检查API密钥是否已配置

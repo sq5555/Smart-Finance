@@ -6,9 +6,7 @@ import 'config/api_config.dart';
 class GeminiService {
   
   final String apiKey = ApiConfig.geminiApiKey;
-  // OpenRouter endpoint
   final String endpoint = ApiConfig.openRouterEndpoint;
-  
   final String model = ApiConfig.defaultModel;
 
   Future<String> getFinancialAdvice(String prompt) async {

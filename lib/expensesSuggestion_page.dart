@@ -112,11 +112,11 @@ class _ExpensesSuggestionPageState extends State<ExpensesSuggestionPage> {
         return;
       }
 
-      
+      // Fetch all financial data from database
       final doc = await FirebaseFirestore.instance.collection('financialData').doc(userId).get();
       final data = doc.data() ?? {};
 
-      
+      // Get current month data
       final now = DateTime.now();
       final currentMonth = now.month;
       final currentYear = now.year;
@@ -223,7 +223,10 @@ Do not use any asterisk or * in your answer.
         advice = result.replaceAll('*', '');
         isLoading = false;
       });
-     
+      
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   _controller.clear();
+      // });
 
     } catch (e) {
       debugPrint('Sorry, I couldn\'t generate advice at the moment. Please try again later.');
@@ -315,7 +318,7 @@ Do not use any asterisk or * in your answer.
           padding: const EdgeInsets.all(20.0),
           child: Listener(
             onPointerDown: (_) {
-              
+             
               FocusScope.of(context).unfocus();
             },
             behavior: HitTestBehavior.translucent,
@@ -383,7 +386,7 @@ Do not use any asterisk or * in your answer.
                         onPressed: isLoading
                             ? null
                             : () {
-                         
+                          
                           FocusScope.of(context).unfocus();
                           final question = _controller.text.trim();
                           fetchAdviceWithData(question);
@@ -474,7 +477,7 @@ Do not use any asterisk or * in your answer.
                                     ],
                                   ),
                                 ),
-                               
+                                
                                 Expanded(
                                   child: Container(
                                     padding: EdgeInsets.all(16),
@@ -514,7 +517,7 @@ Do not use any asterisk or * in your answer.
                     ),
                   ),
                   SizedBox(height: 20),
-                 
+                  
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Container(
